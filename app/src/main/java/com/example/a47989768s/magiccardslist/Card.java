@@ -10,7 +10,11 @@ public class Card {
     private String rarity;
     private String type;
 
-    public Card() {
+    public Card(String _name, String _rarity, String _type) {
+
+        name = _name;
+        rarity = _rarity;
+        type = _type;
 
     }
 

@@ -1,0 +1,56 @@
+package com.example.a47989768s.magiccardslist;
+
+import android.net.Uri;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+
+/**
+ * Created by 47989768s on 19/10/16.
+ */
+
+public class MagicTGGetAllCardsApi {
+
+    private final String url="https://api.magicthegathering.io/v1/cards?page=5&pageSize=100";
+
+    public ArrayList<Card> getCards() {
+
+        ArrayList<Card> cards = new ArrayList<>();
+
+        try {
+
+            String jsonResult = HttpUtils.get(url);
+
+            JSONObject jsonO = new JSONObject(jsonResult);
+            JSONArray  jsonCards = jsonO.getJSONArray("cards");
+            String name, rarity, type;
+
+            for (int i = 0; i < jsonCards.length(); ++i) {
+
+                JSONObject object = jsonCards.getJSONObject(i);
+
+                name = object.getString("name");
+                rarity = object.getString("rarity");
+                type = object.getString("type");
+
+                Card c = new Card(name, rarity, type);
+                cards.add(c);
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return cards;
+
+    }
+
+}
