@@ -1,6 +1,7 @@
 package com.example.a47989768s.magiccardslist;
 
 import android.net.Uri;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class MagicTGGetAllCardsApi {
 
-    private final String url="https://api.magicthegathering.io/v1/cards?page=5&pageSize=100";
+    private String url="https://api.magicthegathering.io/v1/cards?page=5&pageSize=100";
 
     public ArrayList<Card> getCards() {
 
@@ -24,9 +25,7 @@ public class MagicTGGetAllCardsApi {
 
         try {
 
-            String jsonResult = HttpUtils.get(url);
-
-            JSONObject jsonO = new JSONObject(jsonResult);
+            JSONObject jsonO = new JSONObject(HttpUtils.get(url));
             JSONArray  jsonCards = jsonO.getJSONArray("cards");
             String name, rarity, type;
 

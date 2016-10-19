@@ -3,6 +3,7 @@ package com.example.a47989768s.magiccardslist;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,15 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void refresh() {
+
+        MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
+
+        ArrayList<Card> cards = api.getCards();
+
+        for(int i = 0; i < cards.size(); ++i) {
+            Log.d("DEBUG", cards.get(i).toString());
+        }
+
 
     }
 
