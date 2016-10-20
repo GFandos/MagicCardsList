@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -75,7 +76,7 @@ public class MainActivityFragment extends Fragment {
 
         ListView cardsList = (ListView) view.findViewById(R.id.cardsList);
 
-        String [] data = {"Carta 1", "Carta 2", "Carta 3", "Carta 4", "Carta 5", "Carta 6", "Carta 7"};
+        String [] data = {"Card example 1", "Card example 2", "Card example 3", "Card example 4", "Card example 5", "Card example 6", "Card example 7"};
         items = new ArrayList<>(Arrays.asList(data));
 
         adapter = new ArrayAdapter<>(
@@ -92,10 +93,10 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-    private class RefreshAsyncTask extends AsyncTask<Void, Void, Void> {
+    private class RefreshAsyncTask extends AsyncTask<Void, Void, ArrayList<Card>> {
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected ArrayList<Card> doInBackground(Void... voids) {
             MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
 
             ArrayList<Card> cards = api.getCards();
@@ -104,7 +105,18 @@ public class MainActivityFragment extends Fragment {
                 Log.d("DEBUG", cards.get(i).toString());
             }
 
-            return null;
+            return cards;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Card> cards) {
+
+            adapter.clear();
+
+            for(int i = 0; i < cards.size(); ++i) {
+                adapter.add(cards.get(i).getName());
+            }
         }
     }
+
 }
