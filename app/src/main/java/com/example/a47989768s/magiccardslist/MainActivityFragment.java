@@ -1,5 +1,6 @@
 package com.example.a47989768s.magiccardslist;
 
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class MainActivityFragment extends Fragment {
         int id = item.getItemId();
 
         if(id == R.id.refresh) {
+
             refresh();
             return true;
         }
@@ -52,14 +54,9 @@ public class MainActivityFragment extends Fragment {
 
     private void refresh() {
 
-        MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
+        RefreshAsyncTask refreshAsyncTask = new RefreshAsyncTask();
 
-        ArrayList<Card> cards = api.getCards();
-
-        for(int i = 0; i < cards.size(); ++i) {
-            Log.d("DEBUG", cards.get(i).toString());
-        }
-
+        refreshAsyncTask.execute();
 
     }
 
@@ -93,5 +90,21 @@ public class MainActivityFragment extends Fragment {
         return view;
 
 
+    }
+
+    private class RefreshAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
+
+            ArrayList<Card> cards = api.getCards();
+
+            for(int i = 0; i < cards.size(); ++i) {
+                Log.d("DEBUG", cards.get(i).toString());
+            }
+
+            return null;
+        }
     }
 }
