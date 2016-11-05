@@ -1,5 +1,6 @@
 package com.example.a47989768s.magiccardslist;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

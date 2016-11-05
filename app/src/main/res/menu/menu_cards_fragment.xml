@@ -11,4 +11,6 @@
         android:showAsAction="always"
         android:checkable="false"
         app:showAsAction="always"></item>
+    <item android:title="Preferences"
+        android:id="@+id/preferences" />
 </menu>
