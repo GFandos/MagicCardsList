@@ -9,12 +9,22 @@ public class Card {
     private String name;
     private String rarity;
     private String type;
+    private String imageUrl;
 
-    public Card(String _name, String _rarity, String _type) {
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Card(String _name, String _rarity, String _type, String _imageUrl) {
 
         name = _name;
         rarity = _rarity;
         type = _type;
+        imageUrl = _imageUrl;
 
     }
 
@@ -24,6 +34,7 @@ public class Card {
                 "name='" + name + '\'' +
                 ", rarity='" + rarity + '\'' +
                 ", type='" + type + '\'' +
+                ", imageUrl'" + imageUrl + '\'' +
                 '}';
     }
 

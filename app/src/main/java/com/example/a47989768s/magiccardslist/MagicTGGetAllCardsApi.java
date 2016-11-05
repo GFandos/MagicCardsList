@@ -27,7 +27,7 @@ public class MagicTGGetAllCardsApi {
 
             JSONObject jsonO = new JSONObject(HttpUtils.get(url));
             JSONArray  jsonCards = jsonO.getJSONArray("cards");
-            String name, rarity, type;
+            String name, rarity, type, imageUrl;
 
             for (int i = 0; i < jsonCards.length(); ++i) {
 
@@ -36,8 +36,9 @@ public class MagicTGGetAllCardsApi {
                 name = object.getString("name");
                 rarity = object.getString("rarity");
                 type = object.getString("type");
+                imageUrl = object.getString("imageUrl");
 
-                Card c = new Card(name, rarity, type);
+                Card c = new Card(name, rarity, type, imageUrl);
                 cards.add(c);
 
             }

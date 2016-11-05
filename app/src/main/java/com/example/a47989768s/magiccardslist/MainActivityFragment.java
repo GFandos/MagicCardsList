@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.lang.reflect.Array;
@@ -78,6 +79,7 @@ public class MainActivityFragment extends Fragment {
 
         String [] data = {"Card example 1", "Card example 2", "Card example 3", "Card example 4", "Card example 5", "Card example 6", "Card example 7"};
         items = new ArrayList<>(Arrays.asList(data));
+
 
         adapter = new ArrayAdapter<>(
                 getContext(),
