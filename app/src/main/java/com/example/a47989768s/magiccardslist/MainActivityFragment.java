@@ -57,6 +57,12 @@ public class MainActivityFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
+    }
+
     private void refresh() {
 
         RefreshAsyncTask refreshAsyncTask = new RefreshAsyncTask();
@@ -80,9 +86,7 @@ public class MainActivityFragment extends Fragment {
 
         ListView cardsList = (ListView) view.findViewById(R.id.cardsList);
 
-        String [] data = {"Card example 1", "Card example 2", "Card example 3", "Card example 4", "Card example 5", "Card example 6", "Card example 7"};
-        items = new ArrayList<>(Arrays.asList(data));
-
+        items = new ArrayList<>();
 
         adapter = new ArrayAdapter<>(
                 getContext(),
@@ -108,7 +112,6 @@ public class MainActivityFragment extends Fragment {
 
             MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
 
-            //ArrayList<Card> cards = api.getCards();
             ArrayList<Card> cards = api.getCards(rarity, color);
 
             for(int i = 0; i < cards.size(); ++i) {
