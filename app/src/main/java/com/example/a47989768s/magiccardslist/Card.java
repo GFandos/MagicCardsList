@@ -10,6 +10,7 @@ public class Card {
     private String rarity;
     private String type;
     private String imageUrl;
+    private String color;
 
     public String getImageUrl() {
         return imageUrl;
@@ -19,12 +20,13 @@ public class Card {
         this.imageUrl = imageUrl;
     }
 
-    public Card(String _name, String _rarity, String _type, String _imageUrl) {
+    public Card(String _name, String _rarity, String _type, String _imageUrl, String _color) {
 
         name = _name;
         rarity = _rarity;
         type = _type;
         imageUrl = _imageUrl;
+        color = _color;
 
     }
 
@@ -35,6 +37,7 @@ public class Card {
                 ", rarity='" + rarity + '\'' +
                 ", type='" + type + '\'' +
                 ", imageUrl'" + imageUrl + '\'' +
+                ", color" + color + "\'" +
                 '}';
     }
 

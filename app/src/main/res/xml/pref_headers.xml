@@ -5,7 +5,7 @@
     <header
         android:fragment="com.example.a47989768s.magiccardslist.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
+        android:title="@string/pref_header_cards_preferences" />
 
     <header
         android:fragment="com.example.a47989768s.magiccardslist.SettingsActivity$NotificationPreferenceFragment"

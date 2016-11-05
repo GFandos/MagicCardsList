@@ -177,8 +177,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("query_rarity"));
-            bindPreferenceSummaryToValue(findPreference("query_color"));
+            bindPreferenceSummaryToValue(findPreference("rarity"));
+            bindPreferenceSummaryToValue(findPreference("color"));
         }
 
         @Override

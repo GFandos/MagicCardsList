@@ -1,7 +1,9 @@
 package com.example.a47989768s.magiccardslist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -100,9 +102,14 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected ArrayList<Card> doInBackground(Void... voids) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String rarity = preferences.getString("rarity", "common");
+            String color = preferences.getString("color", "white");
+
             MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
 
-            ArrayList<Card> cards = api.getCards();
+            //ArrayList<Card> cards = api.getCards();
+            ArrayList<Card> cards = api.getCards(rarity, color);
 
             for(int i = 0; i < cards.size(); ++i) {
                 Log.d("DEBUG", cards.get(i).toString());

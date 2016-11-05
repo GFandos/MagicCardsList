@@ -6,7 +6,7 @@
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
+    <string name="pref_header_cards_preferences">Cards preferences</string>
 
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact
@@ -28,12 +28,12 @@
         <item>Basic Land</item>
     </string-array>
     <string-array name="pref_query_values_rarity">
-        <item>common</item>
-        <item>uncommon</item>
-        <item>rare</item>
-        <item>mRare</item>
-        <item>special</item>
-        <item>land</item>
+        <item>Common</item>
+        <item>Uncommon</item>
+        <item>Rare</item>
+        <item>Mythic Rare</item>
+        <item>Special</item>
+        <item>Basic Land</item>
     </string-array>
     <string-array name="pref_query_options_colors">
         <item>Red</item>

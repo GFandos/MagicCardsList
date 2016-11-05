@@ -17,17 +17,30 @@ import java.util.ArrayList;
 
 public class MagicTGGetAllCardsApi {
 
-    private String url="https://api.magicthegathering.io/v1/cards?page=5&pageSize=100";
+    private static String url="https://api.magicthegathering.io/v1/cards";
 
-    public ArrayList<Card> getCards() {
+    public static String getUrl(String rarity, String color) {
+
+        Uri builtUri = Uri.parse(url)
+                .buildUpon()
+                .appendQueryParameter("rarity", rarity)
+                .appendQueryParameter("colors", color)
+                .build();
+        Log.d("DEBUG", builtUri.toString());
+        return builtUri.toString();
+
+    }
+
+    public ArrayList<Card> getCards(String rarity, String color) {
 
         ArrayList<Card> cards = new ArrayList<>();
 
         try {
 
-            JSONObject jsonO = new JSONObject(HttpUtils.get(url));
+            String newUrl = getUrl(rarity, color);
+            JSONObject jsonO = new JSONObject(HttpUtils.get(newUrl));
             JSONArray  jsonCards = jsonO.getJSONArray("cards");
-            String name, rarity, type, imageUrl;
+            String name, type, imageUrl, cardColor;
 
             for (int i = 0; i < jsonCards.length(); ++i) {
 
@@ -36,9 +49,10 @@ public class MagicTGGetAllCardsApi {
                 name = object.getString("name");
                 rarity = object.getString("rarity");
                 type = object.getString("type");
+                cardColor = object.getString("colors");
                 imageUrl = object.getString("imageUrl");
 
-                Card c = new Card(name, rarity, type, imageUrl);
+                Card c = new Card(name, rarity, type, imageUrl, cardColor);
                 cards.add(c);
 
             }
