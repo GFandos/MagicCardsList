@@ -27,8 +27,8 @@ import java.util.Arrays;
  */
 public class MainActivityFragment extends Fragment {
 
-    private ArrayList<String> items;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<Card> items;
+    private CardsAdapter adapter;
 
     public MainActivityFragment() {
     }
@@ -88,10 +88,9 @@ public class MainActivityFragment extends Fragment {
 
         items = new ArrayList<>();
 
-        adapter = new ArrayAdapter<>(
+        adapter = new CardsAdapter(
                 getContext(),
                 R.layout.cards_rows,
-                R.id.cardName,
                 items
         );
 
@@ -127,7 +126,7 @@ public class MainActivityFragment extends Fragment {
             adapter.clear();
 
             for(int i = 0; i < cards.size(); ++i) {
-                adapter.add(cards.get(i).getName());
+                adapter.add(cards.get(i));
             }
         }
     }
