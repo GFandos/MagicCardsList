@@ -50,7 +50,10 @@ public class MagicTGGetAllCardsApi {
                 rarity = object.getString("rarity");
                 type = object.getString("type");
                 cardColor = object.getString("colors");
-                imageUrl = object.getString("imageUrl");
+
+                if(object.has("imageUrl")) imageUrl = object.getString("imageUrl");
+                else imageUrl = object.getString("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png");
+
                 cardDescription = object.getString("originalText");
 
                 Card c = new Card(name, rarity, type, imageUrl, cardColor, cardDescription);
