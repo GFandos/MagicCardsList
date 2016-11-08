@@ -23,6 +23,7 @@ public class MagicTGGetAllCardsApi {
 
         Uri builtUri = Uri.parse(url)
                 .buildUpon()
+                .appendQueryParameter("size", "100")
                 .appendQueryParameter("rarity", rarity)
                 .appendQueryParameter("colors", color)
                 .build();
@@ -52,9 +53,11 @@ public class MagicTGGetAllCardsApi {
                 cardColor = object.getString("colors");
 
                 if(object.has("imageUrl")) imageUrl = object.getString("imageUrl");
-                else imageUrl = object.getString("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png");
+                else imageUrl = object.getString("");
 
-                cardDescription = object.getString("text");
+                if(object.has("text")) cardDescription = object.getString("text");
+                else if(object.has("originalText")) cardDescription = object.getString("originalText");
+                else cardDescription = "{NO TEXT FOUND}";
 
                 Card c = new Card(name, rarity, type, imageUrl, cardColor, cardDescription);
                 cards.add(c);
