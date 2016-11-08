@@ -1,5 +1,6 @@
 package com.example.a47989768s.magiccardslist;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -99,6 +100,10 @@ public class MainActivityFragment extends Fragment {
 
                 Card card = (Card) parent.getItemAtPosition(position);
 
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("card", card);
+
+                startActivity(intent);
             }
 
         });
