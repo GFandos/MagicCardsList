@@ -40,7 +40,7 @@ public class MagicTGGetAllCardsApi {
             String newUrl = getUrl(rarity, color);
             JSONObject jsonO = new JSONObject(HttpUtils.get(newUrl));
             JSONArray  jsonCards = jsonO.getJSONArray("cards");
-            String name, type, imageUrl, cardColor;
+            String name, type, imageUrl, cardColor, cardDescription;
 
             for (int i = 0; i < jsonCards.length(); ++i) {
 
@@ -51,8 +51,9 @@ public class MagicTGGetAllCardsApi {
                 type = object.getString("type");
                 cardColor = object.getString("colors");
                 imageUrl = object.getString("imageUrl");
+                cardDescription = object.getString("originalText");
 
-                Card c = new Card(name, rarity, type, imageUrl, cardColor);
+                Card c = new Card(name, rarity, type, imageUrl, cardColor, cardDescription);
                 cards.add(c);
 
             }
