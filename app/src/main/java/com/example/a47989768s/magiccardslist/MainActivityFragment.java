@@ -80,7 +80,6 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
         ListView cardsList = (ListView) view.findViewById(R.id.cardsList);
 
         items = new ArrayList<>();
