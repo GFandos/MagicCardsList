@@ -1,6 +1,5 @@
 package com.example.a47989768s.magiccardslist;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -14,13 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -95,6 +91,17 @@ public class MainActivityFragment extends Fragment {
         );
 
         cardsList.setAdapter(adapter);
+
+        cardsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Card card = (Card) parent.getItemAtPosition(position);
+
+            }
+
+        });
 
         return view;
 
