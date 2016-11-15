@@ -63,6 +63,9 @@ public class MagicTGGetAllCardsApi {
                 cards.add(c);
 
             }
+            for(int i = 0; i < cards.size(); ++i) {
+                Log.d("Llistat cartes: ", cards.get(i).toString());
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

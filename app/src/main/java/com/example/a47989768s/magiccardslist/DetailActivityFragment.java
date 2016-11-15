@@ -46,7 +46,7 @@ public class DetailActivityFragment extends Fragment {
     }
 
     private void updateUI(Card card) {
-        //Log.d("CARD", card.toString());
+        Log.d("CARD", card.toString());
 
         binding.cardName.setText(card.getName());
         binding.cardType.setText(card.getType());

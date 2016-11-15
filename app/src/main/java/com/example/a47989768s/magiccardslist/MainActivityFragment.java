@@ -122,8 +122,8 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected ArrayList<Card> doInBackground(Void... voids) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            String rarity = preferences.getString("rarity", "common");
-            String color = preferences.getString("color", "white");
+            String rarity = preferences.getString("rarity", "");
+            String color = preferences.getString("color", "");
 
             MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
 
