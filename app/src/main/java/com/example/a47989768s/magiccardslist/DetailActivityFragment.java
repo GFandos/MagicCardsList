@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+//import android.widget.ImageView;
+//import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import android.databinding.DataBindingUtil;
+import com.example.a47989768s.magiccardslist.databinding.FragmentDetailBinding;
 
 import org.w3c.dom.Text;
 
@@ -18,15 +20,7 @@ import org.w3c.dom.Text;
  */
 public class DetailActivityFragment extends Fragment {
 
-    private View view;
-    private ImageView cardImage;
-    private TextView cardName;
-    private TextView cardType;
-    private TextView cardRarity;
-    private TextView cardDescription;
-
-
-
+    private FragmentDetailBinding binding;
 
     public DetailActivityFragment() {
     }
@@ -35,7 +29,8 @@ public class DetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_detail, container, false);
+        binding = DataBindingUtil.inflate(inflater,  R.layout.fragment_detail, container, false);
+        View view = binding.getRoot();
 
         Intent i = getActivity().getIntent();
 
@@ -53,17 +48,12 @@ public class DetailActivityFragment extends Fragment {
     private void updateUI(Card card) {
         //Log.d("CARD", card.toString());
 
-        cardImage = (ImageView) view.findViewById(R.id.cardImage);
-        cardName = (TextView) view.findViewById(R.id.cardName);
-        cardType = (TextView) view.findViewById(R.id.cardType);
-        cardRarity = (TextView) view.findViewById(R.id.cardRarity);
-        cardDescription = (TextView) view.findViewById(R.id.cardDescription);
+        binding.cardName.setText(card.getName());
+        binding.cardType.setText(card.getType());
+        binding.cardRarity.setText(card.getRarity());
+        binding.cardDescription.setText(card.getDescription());
 
-        Glide.with(getContext()).load(card.getImageUrl()).into(cardImage);
-        cardName.setText(card.getName());
-        cardType.setText(card.getType());
-        cardRarity.setText(card.getRarity());
-        cardDescription.setText(card.getDescription());
+        Glide.with(getContext()).load(card.getImageUrl()).into(binding.cardImage);
 
     }
 }
