@@ -16,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.databinding.DataBindingUtil;
+
+import com.example.a47989768s.magiccardslist.databinding.FragmentDetailBinding;
+import com.example.a47989768s.magiccardslist.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
 
@@ -26,6 +30,7 @@ public class MainActivityFragment extends Fragment {
 
     private ArrayList<Card> items;
     private CardsAdapter adapter;
+    private FragmentMainBinding binding;
 
     public MainActivityFragment() {
     }
@@ -79,8 +84,8 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView cardsList = (ListView) view.findViewById(R.id.cardsList);
+        binding = DataBindingUtil.inflate(inflater,  R.layout.fragment_main, container, false);
+        View view = binding.getRoot();
 
         items = new ArrayList<>();
 
@@ -90,9 +95,9 @@ public class MainActivityFragment extends Fragment {
                 items
         );
 
-        cardsList.setAdapter(adapter);
+        binding.cardsList.setAdapter(adapter);
 
-        cardsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.cardsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
