@@ -32,7 +32,7 @@ public class MagicTGGetAllCardsApi {
 
     }
 
-    public ArrayList<Card> getCards(String rarity, String color) {
+    public static ArrayList<Card> getCards(String rarity, String color) {
 
         ArrayList<Card> cards = new ArrayList<>();
 

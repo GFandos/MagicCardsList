@@ -2,6 +2,7 @@ package com.example.a47989768s.magiccardslist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -22,6 +23,10 @@ import com.example.a47989768s.magiccardslist.databinding.FragmentDetailBinding;
 import com.example.a47989768s.magiccardslist.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
+
+import nl.littlerobots.cupboard.tools.provider.UriHelper;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -117,34 +122,36 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-    private class RefreshAsyncTask extends AsyncTask<Void, Void, ArrayList<Card>> {
+    private class RefreshAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected ArrayList<Card> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             String rarity = preferences.getString("rarity", "");
             String color = preferences.getString("color", "");
 
-            MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
-
-            ArrayList<Card> cards = api.getCards(rarity, color);
+            ArrayList<Card> cards = MagicTGGetAllCardsApi.getCards(rarity, color);
 
             for(int i = 0; i < cards.size(); ++i) {
                 Log.d("DEBUG", cards.get(i).toString());
             }
 
-            return cards;
+            UriHelper uriH = UriHelper.with(MagicContentProvider.AUTHORITY);
+            Uri cardUri = uriH.getUri(Card.class);
+            cupboard().withContext(getContext()).put(cardUri, Card.class, cards);
+
+            return null;
         }
 
-        @Override
-        protected void onPostExecute(ArrayList<Card> cards) {
-
-            adapter.clear();
-
-            for(int i = 0; i < cards.size(); ++i) {
-                adapter.add(cards.get(i));
-            }
-        }
+//        @Override
+//        protected void onPostExecute(ArrayList<Card> cards) {
+//
+//            adapter.clear();
+//
+//            for(int i = 0; i < cards.size(); ++i) {
+//                adapter.add(cards.get(i));
+//            }
+//        }
     }
 
 }
