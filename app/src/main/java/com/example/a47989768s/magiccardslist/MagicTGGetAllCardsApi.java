@@ -19,11 +19,11 @@ public class MagicTGGetAllCardsApi {
 
     private static String url="https://api.magicthegathering.io/v1/cards";
 
-    public static String getUrl(String rarity, String color) {
+    static String getUrl(String rarity, String color) {
 
         Uri builtUri = Uri.parse(url)
                 .buildUpon()
-                .appendQueryParameter("size", "100")
+                .appendQueryParameter("size", "50")
                 .appendQueryParameter("rarity", rarity)
                 .appendQueryParameter("colors", color)
                 .build();
@@ -32,7 +32,7 @@ public class MagicTGGetAllCardsApi {
 
     }
 
-    public static ArrayList<Card> getCards(String rarity, String color) {
+    static ArrayList<Card> getCards(String rarity, String color) {
 
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class MagicTGGetAllCardsApi {
 
             String newUrl = getUrl(rarity, color);
             JSONObject jsonO = new JSONObject(HttpUtils.get(newUrl));
-            JSONArray  jsonCards = jsonO.getJSONArray("cards");
+            JSONArray jsonCards = jsonO.getJSONArray("cards");
             String name, type, imageUrl, cardColor, cardDescription;
 
             for (int i = 0; i < jsonCards.length(); ++i) {
@@ -53,7 +53,7 @@ public class MagicTGGetAllCardsApi {
                 cardColor = object.getString("colors");
 
                 if(object.has("imageUrl")) imageUrl = object.getString("imageUrl");
-                else imageUrl = object.getString("");
+                else imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/No_image_available_400_x_600.svg/2000px-No_image_available_400_x_600.svg.png";
 
                 if(object.has("text")) cardDescription = object.getString("text");
                 else if(object.has("originalText")) cardDescription = object.getString("originalText");

@@ -33,8 +33,8 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  */
 public class MainActivityFragment extends Fragment {
 
-    private ArrayList<Card> items;
-    private CardsAdapter adapter;
+    //private CardsAdapter adapter;
+    private CardsCursorAdapter adapter;
     private FragmentMainBinding binding;
 
     public MainActivityFragment() {
@@ -92,13 +92,7 @@ public class MainActivityFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater,  R.layout.fragment_main, container, false);
         View view = binding.getRoot();
 
-        items = new ArrayList<>();
-
-        adapter = new CardsAdapter(
-                getContext(),
-                R.layout.cards_rows,
-                items
-        );
+        adapter = new CardsCursorAdapter(getContext(), Card.class);
 
         binding.cardsList.setAdapter(adapter);
 
@@ -139,19 +133,9 @@ public class MainActivityFragment extends Fragment {
             UriHelper uriH = UriHelper.with(MagicContentProvider.AUTHORITY);
             Uri cardUri = uriH.getUri(Card.class);
             cupboard().withContext(getContext()).put(cardUri, Card.class, cards);
-
             return null;
         }
 
-//        @Override
-//        protected void onPostExecute(ArrayList<Card> cards) {
-//
-//            adapter.clear();
-//
-//            for(int i = 0; i < cards.size(); ++i) {
-//                adapter.add(cards.get(i));
-//            }
-//        }
     }
 
 }
