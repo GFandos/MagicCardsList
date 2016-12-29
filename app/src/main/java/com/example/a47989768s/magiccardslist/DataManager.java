@@ -23,9 +23,9 @@ public class DataManager {
         cupboard().withContext(context).put(CARD_URI, Card.class, cards);
     }
 
-    static void deleteMovies(Context context) {
+/*    static void deleteCards(Context context) {
         cupboard().withContext(context).delete(CARD_URI, "_id > ?", "0");
-    }
+    }*/
 
     static CursorLoader getCursorLoader(Context context) {
         return new CursorLoader(context, CARD_URI, null, null, null, null);

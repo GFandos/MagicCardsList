@@ -71,7 +71,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onStart() {
         super.onStart();
-        refresh();
     }
 
     private void refresh() {
@@ -151,7 +150,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Log.d("DEBUG", cards.get(i).toString());
             }
 
-            DataManager.deleteMovies(getContext());
             DataManager.saveCards(cards, getContext());
 
             return null;
