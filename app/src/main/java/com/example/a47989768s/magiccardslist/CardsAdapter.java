@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
+import com.example.a47989768s.magiccardslist.databinding.CardsRowsBinding;
 
 import java.util.List;
 
@@ -28,20 +28,20 @@ public class CardsAdapter extends ArrayAdapter<Card> {
         Card card =  getItem(position);
         Log.w("Carta: ", card.toString());
 
+        CardsRowsBinding binding = null;
+
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.cards_rows, parent, false);
+            binding = DataBindingUtil.inflate(inflater, R.layout.cards_rows, parent, false);
+        } else {
+            binding = DataBindingUtil.getBinding(convertView);
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.cardName);
-        TextView type = (TextView) convertView.findViewById(R.id.cardType);
-        ImageView image = (ImageView) convertView.findViewById(R.id.cardImage);
+        binding.cardName.setText(card.getName());
+        binding.cardType.setText(card.getType());
+        Glide.with(getContext()).load(card.getImageUrl()).into(binding.cardImage);
 
-        name.setText(card.getName());
-        type.setText(card.getType());
-        Glide.with(getContext()).load(card.getImageUrl()).into(image);
-
-        return convertView;
+        return binding.getRoot();
 
     }
 

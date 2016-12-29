@@ -2,11 +2,16 @@ package com.example.a47989768s.magiccardslist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,21 +19,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.databinding.DataBindingUtil;
 
-import java.lang.reflect.Array;
+import com.example.a47989768s.magiccardslist.databinding.FragmentDetailBinding;
+import com.example.a47989768s.magiccardslist.databinding.FragmentMainBinding;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import nl.littlerobots.cupboard.tools.provider.UriHelper;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private ArrayList<Card> items;
-    private CardsAdapter adapter;
+    //private CardsAdapter adapter;
+    private CardsCursorAdapter adapter;
+    private FragmentMainBinding binding;
 
     public MainActivityFragment() {
     }
@@ -82,53 +93,70 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        binding = DataBindingUtil.inflate(inflater,  R.layout.fragment_main, container, false);
+        View view = binding.getRoot();
 
-        ListView cardsList = (ListView) view.findViewById(R.id.cardsList);
+        adapter = new CardsCursorAdapter(getContext(), Card.class);
 
-        items = new ArrayList<>();
+        binding.cardsList.setAdapter(adapter);
 
-        adapter = new CardsAdapter(
-                getContext(),
-                R.layout.cards_rows,
-                items
-        );
+        binding.cardsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        cardsList.setAdapter(adapter);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Card card = (Card) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("card", card);
+
+                startActivity(intent);
+            }
+
+        });
+
+        getLoaderManager().initLoader(0, null, this);
 
         return view;
 
 
     }
 
-    private class RefreshAsyncTask extends AsyncTask<Void, Void, ArrayList<Card>> {
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getCursorLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
+    }
+
+    private class RefreshAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected ArrayList<Card> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            String rarity = preferences.getString("rarity", "common");
-            String color = preferences.getString("color", "white");
+            String rarity = preferences.getString("rarity", "");
+            String color = preferences.getString("color", "");
 
-            MagicTGGetAllCardsApi api = new MagicTGGetAllCardsApi();
-
-            ArrayList<Card> cards = api.getCards(rarity, color);
+            ArrayList<Card> cards = MagicTGGetAllCardsApi.getCards(rarity, color);
 
             for(int i = 0; i < cards.size(); ++i) {
                 Log.d("DEBUG", cards.get(i).toString());
             }
 
-            return cards;
+            DataManager.deleteMovies(getContext());
+            DataManager.saveCards(cards, getContext());
+
+            return null;
         }
 
-        @Override
-        protected void onPostExecute(ArrayList<Card> cards) {
-
-            adapter.clear();
-
-            for(int i = 0; i < cards.size(); ++i) {
-                adapter.add(cards.get(i));
-            }
-        }
     }
 
 }
