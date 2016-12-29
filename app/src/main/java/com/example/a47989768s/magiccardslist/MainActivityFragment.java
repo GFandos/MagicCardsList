@@ -2,12 +2,16 @@ package com.example.a47989768s.magiccardslist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +35,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //private CardsAdapter adapter;
     private CardsCursorAdapter adapter;
@@ -111,9 +115,26 @@ public class MainActivityFragment extends Fragment {
 
         });
 
+        getLoaderManager().initLoader(0, null, this);
+
         return view;
 
 
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getCursorLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 
     private class RefreshAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -130,9 +151,9 @@ public class MainActivityFragment extends Fragment {
                 Log.d("DEBUG", cards.get(i).toString());
             }
 
-            UriHelper uriH = UriHelper.with(MagicContentProvider.AUTHORITY);
-            Uri cardUri = uriH.getUri(Card.class);
-            cupboard().withContext(getContext()).put(cardUri, Card.class, cards);
+            DataManager.deleteMovies(getContext());
+            DataManager.saveCards(cards, getContext());
+
             return null;
         }
 

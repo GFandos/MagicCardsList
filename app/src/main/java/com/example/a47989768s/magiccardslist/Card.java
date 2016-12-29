@@ -34,6 +34,10 @@ public class Card implements Serializable {
 
     }
 
+    public Card() {
+
+    }
+
     @Override
     public String toString() {
         return "Card{" +
